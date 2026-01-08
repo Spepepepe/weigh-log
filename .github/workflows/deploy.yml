@@ -43,7 +43,7 @@ jobs:
         run: |
           aws cloudformation deploy \
             --template-file cloudformation/s3-static-hosting.yaml \
-            --stack-name nextjs-static-site \
+            --stack-name ${{ secrets.STACK_NAME }} \
             --parameter-overrides \
               BucketName=${{ secrets.S3_BUCKET_NAME }} \
               AllowedIP=${{ secrets.ALLOWED_IP }} \
@@ -68,7 +68,7 @@ jobs:
       - name: Get Website URL
         run: |
           WEBSITE_URL=$(aws cloudformation describe-stacks \
-            --stack-name nextjs-static-site \
+            --stack-name ${{ secrets.STACK_NAME }} \
             --query 'Stacks[0].Outputs[?OutputKey==`WebsiteURL`].OutputValue' \
             --output text)
           echo "Website URL: $WEBSITE_URL"
