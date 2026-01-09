@@ -4,9 +4,19 @@ import { useState, useEffect } from 'react';
 import { upsertWeightLog, getWeightLogByDate } from '../../lib/weight-service';
 import { WeightLogInput } from '../../lib/types';
 
+// Get current date in Japan timezone (JST, UTC+9)
+function getJapanDate(): string {
+  const now = new Date();
+  const japanTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+  const year = japanTime.getFullYear();
+  const month = String(japanTime.getMonth() + 1).padStart(2, '0');
+  const day = String(japanTime.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 export default function InputPage() {
   const [formData, setFormData] = useState<WeightLogInput>({
-    date: new Date().toISOString().split('T')[0],
+    date: getJapanDate(),
     sleep_hours: 7,
     weight: 0,
   });
