@@ -79,16 +79,10 @@ export default function ViewPage() {
                     日付
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    睡眠時間
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     7日平均<br/>睡眠
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     7日平均<br/>体重
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    体重
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     BMI
@@ -102,16 +96,10 @@ export default function ViewPage() {
                       {formatDate(log.date)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                      {log.sleep_hours}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
                       {log.avg_sleep_7days.toFixed(1)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                      {log.avg_weight_7days.toFixed(2)}
-                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-semibold">
-                      {log.weight.toFixed(2)}
+                      {log.avg_weight_7days.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
                       {log.bmi.toFixed(2)}

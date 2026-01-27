@@ -68,7 +68,7 @@ export async function getWeightLogs(): Promise<WeightLogWithCalculations[]> {
 
     const avg_sleep_7days = last7Days.reduce((sum, l) => sum + l.sleep_hours, 0) / last7Days.length;
     const avg_weight_7days = last7Days.reduce((sum, l) => sum + l.weight, 0) / last7Days.length;
-    const bmi = calculateBMI(log.weight, height);
+    const bmi = calculateBMI(avg_weight_7days, height);
 
     return {
       ...log,
