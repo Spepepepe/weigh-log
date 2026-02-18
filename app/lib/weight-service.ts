@@ -1,34 +1,36 @@
 import { supabase } from './supabase';
 import { WeightLog, WeightLogInput, WeightLogWithCalculations } from './types';
 
-const DEFAULT_HEIGHT_CM = 170; // Default height in centimeters
-const HEIGHT_STORAGE_KEY = 'weighlog_height';
+const DEFAULT_HEIGHT_CM = 170;
 
 /**
- * Get user's height setting from LocalStorage
+ * Get user's height setting from Supabase
  */
-export function getHeight(): number {
-  if (typeof window === 'undefined') {
+export async function getHeight(): Promise<number> {
+  const { data, error } = await supabase
+    .from('user_settings')
+    .select('setting_value')
+    .eq('setting_key', 'height')
+    .single();
+
+  if (error || !data) {
     return DEFAULT_HEIGHT_CM;
   }
 
-  const stored = localStorage.getItem(HEIGHT_STORAGE_KEY);
-  if (!stored) {
-    return DEFAULT_HEIGHT_CM;
-  }
-
-  return parseFloat(stored);
+  return parseFloat(data.setting_value);
 }
 
 /**
- * Update user's height setting in LocalStorage
+ * Update user's height setting in Supabase
  */
-export function updateHeight(height: number): void {
-  if (typeof window === 'undefined') {
-    return;
-  }
+export async function updateHeight(height: number): Promise<void> {
+  const { error } = await supabase
+    .from('user_settings')
+    .upsert({ setting_key: 'height', setting_value: height.toString() }, { onConflict: 'setting_key' });
 
-  localStorage.setItem(HEIGHT_STORAGE_KEY, height.toString());
+  if (error) {
+    throw new Error(`Failed to save height: ${error.message}`);
+  }
 }
 
 /**
@@ -56,7 +58,7 @@ export async function getWeightLogs(): Promise<WeightLogWithCalculations[]> {
     return [];
   }
 
-  const height = getHeight();
+  const height = await getHeight();
 
   // Sort by date ascending for calculations
   const sortedData = [...data].reverse();

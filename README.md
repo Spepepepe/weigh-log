@@ -39,3 +39,28 @@ WeighLog/
 - AWS S3 による静的ホスティング（IP制限付き）
 - CloudFormation でインフラをコード管理
 - GitHub Actions で `app/` や `cloudformation/` への変更を自動デプロイ
+
+## ER図
+
+```mermaid
+erDiagram
+    weight_logs {
+        uuid id PK
+        date date UK "YYYY-MM-DD"
+        numeric weight "体重(kg)"
+        numeric sleep_hours "睡眠時間(時間)"
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    user_settings {
+        uuid id PK
+        text setting_key UK "例: 'height'"
+        text setting_value "例: '170'"
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
+> どちらのテーブルも Supabase (PostgreSQL) に保存されます。
+> `user_settings` はキーバリュー形式で、BMI計算に使う身長などのアプリ設定を管理します。

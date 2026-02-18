@@ -13,10 +13,10 @@ export default function SettingsPage() {
     loadHeight();
   }, []);
 
-  function loadHeight() {
+  async function loadHeight() {
     try {
       setLoading(true);
-      const currentHeight = getHeight();
+      const currentHeight = await getHeight();
       setHeight(currentHeight);
     } catch (error) {
       setMessage(`❌ 読み込みエラー: ${error instanceof Error ? error.message : '不明なエラー'}`);
@@ -25,14 +25,14 @@ export default function SettingsPage() {
     }
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
     setMessage('');
 
     try {
-      updateHeight(height);
-      setMessage('✅ 身長を保存しました（LocalStorageに保存）');
+      await updateHeight(height);
+      setMessage('✅ 身長を保存しました');
     } catch (error) {
       setMessage(`❌ エラー: ${error instanceof Error ? error.message : '不明なエラー'}`);
     } finally {
